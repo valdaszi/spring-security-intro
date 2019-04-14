@@ -25,6 +25,7 @@ These additional references should also help you:
 ### Kas gali būti svarbu
 
 - __Kaip nurodyti, koks view'as pririštas prie URL nenaudojant kontrolerio__
+    
     Pavyzdžiui nurodome, viewą kuris bus rodomas esant klaidai, t.y. koks view'as pririštas prie URL /error:
 
     ```
@@ -37,6 +38,7 @@ These additional references should also help you:
     }
     ```
 - __Jei nėra papildomų nustatymų, tai, pagal nutylėjimą, Spring MVC Security aktyvuojama visiems programos URL__
+    
     Sukuriamas vienas vartotojas vardu 'user' su atsitiktiniu slaptažodžiu, kuris būna matyti konsolėje 
     startavus aplikaciją
     
@@ -48,6 +50,7 @@ These additional references should also help you:
     }
     ```
 - __Ką daryti jei norime turėti kelis vartotojus su skirtingomis rolėmis?__
+    
     Tai galima padaryti keliais būdais:
 
     - perrašyti configure(AuthenticationManagerBuilder auth) metodą:
@@ -77,6 +80,7 @@ These additional references should also help you:
 
         ```
 - __Ką daryti jei norime nurodyti kokios rolės reikalingos norint prieiti prie vieno ar kito URL?__
+    
     Keli sprendimai:
     
     - perrašyti configure(HttpSecurity http) metodą:
