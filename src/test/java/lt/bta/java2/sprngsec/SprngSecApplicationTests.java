@@ -1,4 +1,4 @@
-package lt.bat.java2.sprngsec;
+package lt.bta.java2.sprngsec;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
