@@ -184,4 +184,4 @@ These additional references should also help you:
     
     - Paprastose sistemose tai vienas ir tas pats, t.y. rolė atitinka teisę.
     
-    - Sudėtingesnėse sistemose rolė būti kaip teisių konteineris.
+    - Sudėtingesnėse sistemose rolė būna kaip teisių konteineris.
