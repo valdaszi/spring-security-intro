@@ -107,7 +107,8 @@ These additional references should also help you:
         ```
         
     - panaudot java standartines anotacijas kaip kad __@PermitAll__, __@RolesAllowed__ ir pan.
-        Kad šios anotaciojos pradėtų veikti reikia konfiguracinę klasę anotuoti su __@EnableGlobalMethodSecurity__.
+        Kad šios anotacijos pradėtų veikti reikia konfiguracinę klasę anotuoti su __@EnableGlobalMethodSecurity__ ir 
+        nurodyti jos parametrui __jsr250Enabled__ reikšmę __true__.
         ```
         @EnableGlobalMethodSecurity(jsr250Enabled = true)
         @Configuration
@@ -122,7 +123,7 @@ These additional references should also help you:
         @Controller
         class Ctrl {
         
-            @RolesAllowed("USER")
+            @RolesAllowed({"USER", "ADMIN"})
             @GetMapping("/user")
             public String user() {
                 return "user";
@@ -141,3 +142,48 @@ These additional references should also help you:
             }
         }
         ```
+
+    - panaudot Spring anotacijas __@Secured__, __@PreAuthorize__ ar __@PostAuthorize__.
+        Kad šios anotacijos pradėtų veikti reikia konfiguracinę klasę anotuoti su __@EnableGlobalMethodSecurity__ ir 
+                nurodyti jos parametrams __securedEnabled__ ir __prePostEnabled__ reikšmes __true__.
+        ```
+        @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+        @Configuration
+        class SecurityConfig extends WebSecurityConfigurerAdapter {
+            ...
+        }
+        ```    
+        
+        Taip padarius, jau galime kontrolerius ir/ar jų metodus anotuoti nurodant teises ir roles. 
+        __@PreAuthorize__ ir __@PostAuthorize__ anotacijose galima naudoti taip vadinamas 
+        [SpEL (Spring Expression Language) išraiškas](https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#expressions),
+        o čia daugiau info apie SpEL išraiškas Security kontekste: [linkas į dokumentaciją](https://docs.spring.io/spring-security/site/docs/current/reference/html5/#el-access)
+        ```
+        @Controller
+        class Ctrl {
+        
+            @Secured({"USER", "ADMIN"})  // tik turintiems rolę USER arba ADMIN  
+            @GetMapping("/user")
+            public String user() {
+                return "user";
+            }
+        
+            @PreAuthorize("hasRole('USER') AND hasRole('ADMIN')")   // turintiems roles ir USER ir ADMIN  
+            @GetMapping("/admin")
+            public String admin() {
+                return "admin";
+            }
+        
+            @PreAuthorize("permitAll()")
+            @GetMapping("/any")
+            public String any() {
+                return "any";
+            }
+        }
+        ```         
+                
+- __Skirtumai tarp Spring rolių (_Role_) ir įgaliojimų/teisių (_Authority_)__  
+    
+    - Paprastose sistemose tai vienas ir tas pats, t.y. rolė atitinka teisę.
+    
+    - Sudėtingesnėse sistemose rolė būti kaip teisių konteineris.
