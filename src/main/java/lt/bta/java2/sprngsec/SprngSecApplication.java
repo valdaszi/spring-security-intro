@@ -89,15 +89,32 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 //    }
 
 
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//                .authorizeRequests()
+//                .antMatchers("/").permitAll()
+//                .antMatchers("/user").hasRole("USER")
+//                .antMatchers("/admin").hasRole("ADMIN")
+//                .antMatchers("/any").authenticated()
+//                .anyRequest().authenticated()
+//
+//                .and()
+//                .formLogin()
+//
+//                .and()
+//                .logout()
+//                .logoutSuccessUrl("/")  // nurodytas URL į kurį nueis po sėkmingo logout'o - pagal nutylėjimą atidaromas login langas
+//        ;
+//    }
+
+
+    // Jei naudojame anotacijas, tai HttpSecurity reikia konfiguruoti minimaliai
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/user").hasRole("USER")
-                .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/any").authenticated()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
 
                 .and()
                 .formLogin()
@@ -107,6 +124,5 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/")  // nurodytas URL į kurį nueis po sėkmingo logout'o - pagal nutylėjimą atidaromas login langas
         ;
     }
-
 }
 
