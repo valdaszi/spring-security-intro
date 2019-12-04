@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,7 +46,6 @@ class Ctrl {
         return "admin";
     }
 
-    @PermitAll
     @GetMapping("/any")
     public String any() {
         return "any";
@@ -65,7 +65,6 @@ class MVCConfig implements WebMvcConfigurer {
 @EnableGlobalMethodSecurity(jsr250Enabled = true)
 @Configuration
 class SecurityConfig extends WebSecurityConfigurerAdapter {
-
 
     @Bean
     @Override
@@ -96,7 +95,6 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/").permitAll()
 //                .antMatchers("/user").hasRole("USER")
 //                .antMatchers("/admin").hasRole("ADMIN")
-//                .antMatchers("/any").authenticated()
 //                .anyRequest().authenticated()
 //
 //                .and()
@@ -114,13 +112,19 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .anyRequest().permitAll()
+
+                // nėra saugu leisti viską - nes jei pamiršime anotuoti metodą tai jis liks neapsaugotas
+                // .anyRequest().permitAll()
+
+                // geriau viską "uždaryti" ir tik "atidaryti" tam tikrus url
+                .antMatchers("/").permitAll()
+                .anyRequest().authenticated()
 
                 .and()
-                .formLogin()
+                .formLogin()    // generuoti login langa
 
                 .and()
-                .logout()
+                .logout()   // generuoti logout langa
                 .logoutSuccessUrl("/")  // nurodytas URL į kurį nueis po sėkmingo logout'o - pagal nutylėjimą atidaromas login langas
         ;
     }
